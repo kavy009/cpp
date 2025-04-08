@@ -21,18 +21,25 @@ public:
 
         if (withdrawn_amt>amount)
         {
-            cout<<"You have not sufficient Balance";
+            cout<<"You have not sufficient Balance"<<endl;
         }
 
-
+else {
         cout<<"Withdrawn amount is "<<withdrawn_amt<<endl;
-    }
 
+
+}
+    }
     void display()
+    { if (withdrawn_amt<=amount)
     {
         balance=amount-withdrawn_amt;
+    }
+    else {
+        balance= amount;
+    }
+    cout<<"Remaining Balance is "<<balance<<endl;
 
-        cout<<"Remaining Balance is "<<balance<<endl;
     }
 
 };
@@ -52,8 +59,7 @@ int main()
      cin>>a1.withdrawn_amt;
 
      a1.withdraw(a1.withdrawn_amt);
-
-     a1.display();
+a1.display();
 
 
 }

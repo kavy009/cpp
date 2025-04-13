@@ -2,7 +2,7 @@
 
 using namespace std;
 
-class Account_info
+class BankAccount
 {
 public:
 
@@ -46,20 +46,20 @@ else {
 
 int main()
 {
-    Account_info a1;
+    BankAccount b;
 
      cout<<"Enter your Name ";
-     cin>>a1.name;
+     cin>>b.name;
       cout<<"Enter your Account no. ";
-     cin>>a1.account_no;
+     cin>>b.account_no;
       cout<<"Enter Amount to deposit ";
-     cin>>a1.amount;
-     a1.deposit(a1.amount);
+     cin>>b.amount;
+     b.deposit(b.amount);
       cout<<"Enter Amount to withdraw ";
-     cin>>a1.withdrawn_amt;
+     cin>>b.withdrawn_amt;
 
-     a1.withdraw(a1.withdrawn_amt);
-a1.display();
-cout<<"24CE017"
+     b.withdraw(b.withdrawn_amt);
+b.display();
+
 
 }

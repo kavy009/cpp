@@ -51,5 +51,6 @@ int main()
     int res = sd.GetSuperNum(GenNum);
     cout << "Result: " << res << endl;
 
+        cout<<"\n24CE017";
     return 0;
 }

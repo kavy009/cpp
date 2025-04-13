@@ -34,13 +34,6 @@ class Rectangle {
         cout<<"Updated length is: "<<length<<endl;
         cout<<"Updated breadth is: "<<breadth<<endl;
     }
-
-   void updatedArea() {
-         cout<<"Area is: "<<newlength*newbreadth<<endl;
-         cout<<"Area is: "<<2*(newlength+newbreadth)<<endl;
-      cout<<"Area is: "<<length*breadth<<endl;
-       cout<<"Perimeter is: "<<2*(length+breadth)<<endl;
-    }
 };
 int main()
 {

@@ -2,61 +2,60 @@
 #include <string>
 using namespace std;
 
-class Inventory_Item {
-    int item_id;
-    string item_name;
+class InventoryItem {
+    int itemId;
+    string itemName;
     float price;
     int quantity;
 
 public:
 
-    void initialize_item() {
+    void InitializeItem() {
         cout << "Enter item ID: ";
-        cin >> item_id;
-          cin.ignore();
+        cin >> itemId;
+        cin.ignore();
         cout << "Enter item name: ";
-        getline(cin, item_name);
+        getline(cin, itemName);
         cout << "Enter item price: ";
         cin >> price;
         cout << "Enter initial quantity: ";
         cin >> quantity;
     }
 
-    void add_stock() {
-        int add_qty;
+    void AddStock() {
+        int addQty;
         cout << "Enter quantity to add: ";
-        cin >> add_qty;
+        cin >> addQty;
 
-            quantity += add_qty;
-            cout << "Stock updated successfully!" << endl;
-
+        quantity += addQty;
+        cout << "Stock updated successfully!" << endl;
     }
 
-    void sell_item() {
-        int sell_qty;
+    void SellItem() {
+        int sellQty;
         cout << "Enter quantity to sell: ";
-        cin >> sell_qty;
-        if (sell_qty <= 0) {
+        cin >> sellQty;
+        if (sellQty <= 0) {
             cout << "Invalid quantity. Enter a positive number." << endl;
-        } else if (sell_qty > quantity) {
+        } else if (sellQty > quantity) {
             cout << "Insufficient stock available!" << endl;
         } else {
-            quantity -= sell_qty;
+            quantity -= sellQty;
             cout << "Sale successful!" << endl;
         }
     }
 
-    void display_item() {
-        cout << "\nItem ID: " << item_id << endl;
-        cout << "Item Name: " << item_name << endl;
+    void DisplayItem() {
+        cout << "\nItem ID: " << itemId << endl;
+        cout << "Item Name: " << itemName << endl;
         cout << "Price: " << price << endl;
         cout << "Quantity in Stock: " << quantity << endl;
     }
 };
 
 int main() {
-    const int SIZE = 100;
-    Inventory_Item items[SIZE];
+     int Size = 30;
+    InventoryItem items[SIZE];
     int n = 0;
     int choice, index;
 
@@ -68,9 +67,9 @@ int main() {
 
         switch(choice) {
             case 1:
-                if (n < SIZE) {
+                if (n < Size) {
                     cout << "\nEnter details for item " << (n + 1) << ":\n";
-                    items[n].initialize_item();
+                    items[n].InitializeItem();
                     n++;
                 } else {
                     cout << "Inventory full! Cannot add more items.\n";
@@ -81,7 +80,7 @@ int main() {
                 cout << "Enter item index (0 to " << n - 1 << ") to add stock: ";
                 cin >> index;
                 if (index >= 0 && index < n) {
-                    items[index].add_stock();
+                    items[index].AddStock();
                 } else {
                     cout << "Invalid item index.\n";
                 }
@@ -91,7 +90,7 @@ int main() {
                 cout << "Enter item index (0 to " << n - 1 << ") to sell: ";
                 cin >> index;
                 if (index >= 0 && index < n) {
-                    items[index].sell_item();
+                    items[index].SellItem();
                 } else {
                     cout << "Invalid item index.\n";
                 }
@@ -101,7 +100,7 @@ int main() {
                 cout << "Enter item index (0 to " << n - 1 << ") to display: ";
                 cin >> index;
                 if (index >= 0 && index < n) {
-                    items[index].display_item();
+                    items[index].DisplayItem();
                 } else {
                     cout << "Invalid item index.\n";
                 }
@@ -113,7 +112,7 @@ int main() {
                 } else {
                     for (int i = 0; i < n; i++) {
                         cout << "\nItem " << i << ":" << endl;
-                        items[i].display_item();
+                        items[i].DisplayItem();
                     }
                 }
                 break;
@@ -128,6 +127,6 @@ int main() {
 
     } while (choice != 0);
 
-        cout<<"\n24CE017";
+    cout << "\n24CE017";
     return 0;
 }

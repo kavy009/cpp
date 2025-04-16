@@ -2,18 +2,18 @@
 #include <string>
 using namespace std;
 
-class Account_Details {
-    int account_number;
-    float current_balance = 0;
-    float withdraw_balance = 0;
-    float deposit_balance = 0;
+class AccountDetails {
+    int accountNumber;
+    float currentBalance = 0;
+    float withdrawBalance = 0;
+    float depositBalance = 0;
     string name;
 
 public:
 
-    void create_account() {
+    void createAccount() {
         cout << "Enter account number: ";
-        cin >> account_number;
+        cin >> accountNumber;
         cout << "Enter name: ";
         cin.ignore();
         getline(cin, name);
@@ -22,58 +22,53 @@ public:
         cout << "Do you want to deposit amount in account? (yes/no): ";
         cin >> choice;
 
-        if (choice == "yes" || choice == "Yes" || choice == "YES")
-            {
-            deposit_money();
+        if (choice == "yes" || choice == "Yes" || choice == "YES") {
+            depositMoney();
         } else {
             cout << "Account created with 0 balance!" << endl;
         }
     }
 
-
-    void deposit_money() {
+    void depositMoney() {
         cout << "Enter amount to deposit: ";
-        cin >> deposit_balance;
+        cin >> depositBalance;
 
-        if (deposit_balance < 0) {
+        if (depositBalance < 0) {
             cout << "Invalid amount! Cannot deposit negative value." << endl;
         } else {
-            current_balance += deposit_balance;
+            currentBalance += depositBalance;
             cout << "Amount deposited successfully!" << endl;
         }
     }
 
-    void withdraw_money() {
+    void withdrawMoney() {
         cout << "Enter amount to withdraw: ";
-        cin >> withdraw_balance;
+        cin >> withdrawBalance;
 
-        if (withdraw_balance < 0) {
+        if (withdrawBalance < 0) {
             cout << "Invalid amount! Cannot withdraw negative value." << endl;
-        } else if (withdraw_balance > current_balance) {
+        } else if (withdrawBalance > currentBalance) {
             cout << "Insufficient balance!" << endl;
         } else {
-            current_balance -= withdraw_balance;
+            currentBalance -= withdrawBalance;
             cout << "Amount debited successfully!" << endl;
         }
     }
 
-
     void display() {
         cout << "\n----- Account Summary -----" << endl;
-        cout << "Account number: " << account_number << endl;
+        cout << "Account number: " << accountNumber << endl;
         cout << "Name: " << name << endl;
-        cout << "Last deposited amount: " << deposit_balance << endl;
-        cout << "Last withdrawn amount: " << withdraw_balance << endl;
-        cout << "Current balance: " << current_balance << endl;
-
+        cout << "Last deposited amount: " << depositBalance << endl;
+        cout << "Last withdrawn amount: " << withdrawBalance << endl;
+        cout << "Current balance: " << currentBalance << endl;
     }
 };
 
 int main() {
-    Account_Details a;
+    AccountDetails a;
     int choice;
-    a.create_account();
-
+    a.createAccount();
 
     do {
         cout << "\nEnter:\n 1 - DEPOSIT\n 2 - WITHDRAW\n 3 - DISPLAY ACCOUNT\n 4 - EXIT\n";
@@ -82,10 +77,10 @@ int main() {
 
         switch (choice) {
             case 1:
-                a.deposit_money();
+                a.depositMoney();
                 break;
             case 2:
-                a.withdraw_money();
+                a.withdrawMoney();
                 break;
             case 3:
                 a.display();
@@ -98,6 +93,6 @@ int main() {
         }
 
     } while (choice != 4);
-    cout<<"\n24CE017";
+    cout << "\n24CE017";
     return 0;
 }

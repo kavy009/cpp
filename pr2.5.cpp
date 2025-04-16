@@ -1,19 +1,20 @@
-#include<iostream>
-#include<math.h>
+#include <iostream>
+#include <math.h>
 using namespace std;
 
-class Loan_details {
-    string customer_name;
-    float loan_amt, rate, tenure, EMI;
+class LoanDetails {
+    string customerName;
+    float loanAmt, rate, tenure, emi;
 
 public:
 
-    void add_data() {
+    void AddData() {
+        cin.ignore();
         cout << "Enter loan applicant name: ";
-        getline(cin, customer_name);
+        getline(cin, customerName);
 
         cout << "Enter loan amount: ";
-        cin >> loan_amt;
+        cin >> loanAmt;
 
         cout << "Enter annual interest rate (in %): ";
         cin >> rate;
@@ -21,29 +22,28 @@ public:
         cout << "Enter the tenure of loan in months: ";
         cin >> tenure;
 
-        calculate(loan_amt, rate, tenure);
+        Calculate(loanAmt, rate, tenure);
     }
 
-    void calculate(float loan_amt, float rate, float tenure) {
-
+    void Calculate(float loanAmt, float rate, float tenure) {
         float R = (rate / 100) / 12;
         float T = tenure;
 
-        EMI = (loan_amt * R * pow(1 + R, T)) / (pow(1 + R, T) - 1);
+        emi = (loanAmt * R * pow(1 + R, T)) / (pow(1 + R, T) - 1);
     }
 
-    void display() {
+    void Display() {
         cout << "\n------ Loan Details ------" << endl;
-        cout << "Customer Name: " << customer_name << endl;
-        cout << "Loan Amount: " << loan_amt<< endl;
+        cout << "Customer Name: " << customerName << endl;
+        cout << "Loan Amount: " << loanAmt << endl;
         cout << "Annual Interest Rate: " << rate << "%" << endl;
         cout << "Loan Tenure: " << tenure << " months" << endl;
-        cout << "Monthly EMI: " << EMI << endl;
+        cout << "Monthly EMI: " << emi << endl;
     }
 };
 
 int main() {
-    Loan_details l;
+    LoanDetails l;
     int choice;
 
     do {
@@ -53,11 +53,11 @@ int main() {
 
         switch (choice) {
             case 1:
-                l.add_data();
+                l.AddData();
                 break;
 
             case 2:
-                l.display();
+                l.Display();
                 break;
 
             case 0:
@@ -70,6 +70,6 @@ int main() {
 
     } while (choice != 0);
 
-        cout<<"\n24CE017";
+    cout << "\n24CE017";
     return 0;
 }

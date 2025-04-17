@@ -55,7 +55,7 @@ public:
 
 int main() {
      int Size = 30;
-    InventoryItem items[SIZE];
+    InventoryItem items[Size];
     int n = 0;
     int choice, index;
 

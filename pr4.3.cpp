@@ -1,72 +1,80 @@
-#include <iostream>
+#include<iostream>
+#include<string>
+#include<vector>
 using namespace std;
 
+class Fuel {
+    protected:
+    string FuelType;
 
-class Fuel
-{
-protected:
-
-    string fuelType;
-
-public:
-
-    Fuel(string ft)
-    {
-        fuelType = ft;
-    }
-
-    void displayFuel()
-    {
-        cout << "Fuel Type: " << fuelType << endl;
+    public:
+    Fuel(string f) {
+        FuelType = f;
     }
 };
 
-class Brand
-{
-protected:
+class Brand: public Fuel {
+    protected:
+    string CarBrand;
 
-    string brandName;
-
-public:
-    Brand(string bn)
-     {
-        brandName = bn;
-    }
-
-    void displayBrand()
-    {
-        cout << "Brand: "<< brandName << endl;
+    public:
+    Brand(string f, string Name) : Fuel(f){
+        CarBrand = Name;
     }
 };
 
-class Car : public Fuel, public Brand
-{
-public:
-    Car(string ft, string bn) : Fuel(ft), Brand(bn) {}
+class Car: public Brand {
+    public:
+    Car(string f, string Name) : Brand(f, Name) {}
 
-    void displayCarDetails()
-    {
-        displayFuel();
-        displayBrand();
+    void DisplayCar() {
+        cout<<"Fuel Type: "<<FuelType<<endl;
+        cout<<"Brand Name: "<<CarBrand<<endl;
+        cout<<"-------------------------------"<<endl;
     }
 };
 
-int main() {
+int main()
+{
+    vector<Car> car;
+    int choice;
+    string Fuel, Name;
 
-   int TotalCars=3;
-    Car c[3] = {
-        Car("Petrol", "Toyota"),
-        Car("Diesel", "Tata"),
-        Car("Electric", "Tesla")
-    };
+    do
+    {
+        cout<<"Enter 1-Enter Car Details , 2-Display all Cars, 0-EXIT: ";
+        cin>>choice;
 
- cout<<"---Car List---\n";
+        switch (choice)
+        {
+        case 1:
+        {
+            cout<<"Enter Fuel type: ";
+            cin>> Fuel;
+            cout<<"Enter Brand Name: ";
+            cin>> Name;
+            Car c(Fuel, Name);
 
-    for (int i = 0; i < TotalCars; i++) {
-        cout << "Car " << i + 1 << " Details:" << endl;
-       c[i].displayCarDetails();
-        cout << endl;
-    }
+            car.push_back(c);
+            break;
+        }
+
+        case 2:
+            for(auto &c: car) {
+                c.DisplayCar();
+            }
+            break;
+
+        case 0:
+            cout<<"Exitting...";
+            break;
+
+        default:
+            break;
+        }
+    } while (choice!=0);
+
     cout<<"\n24CE017";
+    
     return 0;
 }

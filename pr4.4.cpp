@@ -1,74 +1,73 @@
 #include <iostream>
-#include <string>
 #include <vector>
 using namespace std;
 
 class BankAccount {
 protected:
-    string accountNumber;
-    double balance;
+    int accNumber;
+    float balance;
 
 public:
-    BankAccount(string accNum, double initialBalance) {
-        accountNumber = accNum;
-        balance = initialBalance;
+    BankAccount(int num, float bal) {
+        accNumber = num;
+        balance = bal;
     }
 
-    virtual void deposit(double amount) {
+    virtual void deposit(float amount) {
         balance += amount;
         cout << "Deposited: " << amount << endl;
     }
 
-    virtual void withdraw(double amount) {
+    virtual void withdraw(float amount) {
         if (amount <= balance) {
             balance -= amount;
-            cout << "Withdraw: " << amount << endl;
+            cout << "Withdrew: " << amount << endl;
         } else {
-            cout << "Insufficient balance!" << endl;
+            cout << "Not enough balance!" << endl;
         }
     }
 
-    virtual void displayAccountDetails() const {
-        cout << "Account Number: " << accountNumber << endl;
+    virtual void showDetails() {
+        cout << "Account Number: " << accNumber << endl;
         cout << "Balance: " << balance << endl;
     }
 
-    string getAccountNumber() const {
-        return accountNumber;
+    int getAccNumber() {
+        return accNumber;
     }
 
     virtual ~BankAccount() {}
 };
 
+
 class SavingsAccount : public BankAccount {
-private:
-    double interestRate;
+    float interestRate;
 
 public:
-    SavingsAccount(string accNum, double initialBalance, double rate)
-        : BankAccount(accNum, initialBalance), interestRate(rate) {}
+    SavingsAccount(int num, float bal, float rate)
+        : BankAccount(num, bal), interestRate(rate) {}
 
     void applyInterest() {
-        double interest = balance * (interestRate / 100);
+        float interest = balance * (interestRate / 100);
         balance += interest;
-        cout << "Interest Applied: " << interest << endl;
+        cout << "Interest Added: " << interest << endl;
     }
 
-    void displayAccountDetails() const override {
-        BankAccount::displayAccountDetails();
+    void showDetails() override {
+        BankAccount::showDetails();
         cout << "Interest Rate: " << interestRate << "%" << endl;
     }
 };
 
+
 class CurrentAccount : public BankAccount {
-private:
-    double overdraftLimit;
+    float overdraftLimit;
 
 public:
-    CurrentAccount(string accNum, double initialBalance, double limit)
-        : BankAccount(accNum, initialBalance), overdraftLimit(limit) {}
+    CurrentAccount(int num, float bal, float limit)
+        : BankAccount(num, bal), overdraftLimit(limit) {}
 
-    void withdraw(double amount) override {
+    void withdraw(float amount) override {
         if (amount <= balance + overdraftLimit) {
             balance -= amount;
             cout << "Withdrew: " << amount << endl;
@@ -77,45 +76,47 @@ public:
         }
     }
 
-    void displayAccountDetails() const override {
-        BankAccount::displayAccountDetails();
+    void showDetails() override {
+        BankAccount::showDetails();
         cout << "Overdraft Limit: " << overdraftLimit << endl;
     }
 };
 
 class TransactionHistory {
-private:
-    stack<string> transactions;
+    vector<string> transactions;
+    int activeCount = 0;
 
 public:
-    void addTransaction(const string& transaction) {
-        transactions.push(transaction);
+    void add(string record) {
+        transactions.push_back(record);
+        activeCount++;
     }
 
-    void undoLastTransaction() {
-        if (!transactions.empty()) {
-            cout << "Undoing last transaction: " << transactions.top() << endl;
-            transactions.pop();
+    void undo() {
+        if (activeCount > 0) {
+            cout << "Undo: " << transactions[activeCount - 1] << endl;
+            activeCount--;
         } else {
             cout << "No transaction to undo." << endl;
         }
     }
 
-    void displayHistory() const {
-        stack<string> temp = transactions;
-        while (!temp.empty()) {
-            cout << temp.top() << endl;
-            temp.pop();
+    void showHistory() {
+        if (activeCount == 0) {
+            cout << "No transaction history.\n";
+            return;
+        }
+        cout << "Transaction History:\n";
+        for (int i = activeCount - 1; i >= 0; --i) {
+            cout << transactions[i] << endl;
         }
     }
 };
 
-// Helper function to find an account by account number
-BankAccount* findAccount(const vector<BankAccount*>& accounts, const string& accNum) {
+
+BankAccount* findAccount(vector<BankAccount*>& accounts, int num) {
     for (BankAccount* acc : accounts) {
-        if (acc->getAccountNumber() == accNum) {
-            return acc;
-        }
+        if (acc->getAccNumber() == num) return acc;
     }
     return nullptr;
 }
@@ -123,72 +124,81 @@ BankAccount* findAccount(const vector<BankAccount*>& accounts, const string& acc
 int main() {
     vector<BankAccount*> accounts;
     TransactionHistory history;
-
     int choice;
+
     do {
-        cout << "\n1. Add Savings Account\n2. Add Current Account\n3. Deposit\n4. Withdraw\n5. Apply Interest (Savings)\n6. Undo Last Transaction\n7. Display Account Details\n8. Display Transaction History\n0. Exit\nEnter choice: ";
+        cout << "\n--- BANK MENU ---\n";
+        cout << "1. Add Savings Account\n";
+        cout << "2. Add Current Account\n";
+        cout << "3. Deposit\n";
+        cout << "4. Withdraw\n";
+        cout << "5. Apply Interest\n";
+        cout << "6. Undo Last Transaction\n";
+        cout << "7. Show Account Details\n";
+        cout << "8. Show Transaction History\n";
+        cout << "0. Exit\n";
+        cout << "Enter choice: ";
         cin >> choice;
 
-        string accountNumber;
-        double amount, rate, limit;
+        int num;
+        float amt, rate, limit;
 
         switch (choice) {
             case 1:
-                cout << "Enter account number: ";
-                cin >> accountNumber;
-                cout << "Enter initial balance: ";
-                cin >> amount;
-                cout << "Enter interest rate: ";
+                cout << "Account Number: ";
+                cin >> num;
+                cout << "Initial Balance: ";
+                cin >> amt;
+                cout << "Interest Rate (%): ";
                 cin >> rate;
-                accounts.push_back(new SavingsAccount(accountNumber, amount, rate));
+                accounts.push_back(new SavingsAccount(num, amt, rate));
                 break;
 
             case 2:
-                cout << "Enter account number: ";
-                cin >> accountNumber;
-                cout << "Enter initial balance: ";
-                cin >> amount;
-                cout << "Enter overdraft limit: ";
+                cout << "Account Number: ";
+                cin >> num;
+                cout << "Initial Balance: ";
+                cin >> amt;
+                cout << "Overdraft Limit: ";
                 cin >> limit;
-                accounts.push_back(new CurrentAccount(accountNumber, amount, limit));
+                accounts.push_back(new CurrentAccount(num, amt, limit));
                 break;
 
             case 3:
-                cout << "Enter account number: ";
-                cin >> accountNumber;
-                cout << "Enter deposit amount: ";
-                cin >> amount;
-                if (BankAccount* acc = findAccount(accounts, accountNumber)) {
-                    acc->deposit(amount);
-                    history.addTransaction("Deposited " + to_string(amount) + " to " + accountNumber);
+                cout << "Account Number: ";
+                cin >> num;
+                cout << "Amount to Deposit: ";
+                cin >> amt;
+                if (BankAccount* acc = findAccount(accounts, num)) {
+                    acc->deposit(amt);
+                    history.add("Deposited " + to_string(amt) + " to " + to_string(num));
                 } else {
                     cout << "Account not found!" << endl;
                 }
                 break;
 
             case 4:
-                cout << "Enter account number: ";
-                cin >> accountNumber;
-                cout << "Enter withdrawal amount: ";
-                cin >> amount;
-                if (BankAccount* acc = findAccount(accounts, accountNumber)) {
-                    acc->withdraw(amount);
-                    history.addTransaction("Withdrew " + to_string(amount) + " from " + accountNumber);
+                cout << "Account Number: ";
+                cin >> num;
+                cout << "Amount to Withdraw: ";
+                cin >> amt;
+                if (BankAccount* acc = findAccount(accounts, num)) {
+                    acc->withdraw(amt);
+                    history.add("Withdrew " + to_string(amt) + " from " + to_string(num));
                 } else {
                     cout << "Account not found!" << endl;
                 }
                 break;
 
             case 5:
-                cout << "Enter account number: ";
-                cin >> accountNumber;
-                if (BankAccount* acc = findAccount(accounts, accountNumber)) {
-                    SavingsAccount* savingsAcc = dynamic_cast<SavingsAccount*>(acc);
-                    if (savingsAcc) {
-                        savingsAcc->applyInterest();
-                        history.addTransaction("Applied interest to " + accountNumber);
+                cout << "Account Number: ";
+                cin >> num;
+                if (BankAccount* acc = findAccount(accounts, num)) {
+                    if (SavingsAccount* sa = dynamic_cast<SavingsAccount*>(acc)) {
+                        sa->applyInterest();
+                        history.add("Applied interest to " + to_string(num));
                     } else {
-                        cout << "Not a savings account!" << endl;
+                        cout << "Not a Savings Account!" << endl;
                     }
                 } else {
                     cout << "Account not found!" << endl;
@@ -196,29 +206,29 @@ int main() {
                 break;
 
             case 6:
-                history.undoLastTransaction();
+                history.undo();
                 break;
 
             case 7:
-                cout << "Enter account number: ";
-                cin >> accountNumber;
-                if (BankAccount* acc = findAccount(accounts, accountNumber)) {
-                    acc->displayAccountDetails();
+                cout << "Account Number: ";
+                cin >> num;
+                if (BankAccount* acc = findAccount(accounts, num)) {
+                    acc->showDetails();
                 } else {
                     cout << "Account not found!" << endl;
                 }
                 break;
 
             case 8:
-                history.displayHistory();
+                history.showHistory();
                 break;
 
             case 0:
-                cout << "Exiting...\n";
+                cout << "Goodbye!\n";
                 break;
 
             default:
-                cout << "Invalid choice\n";
+                cout << "Invalid choice!" << endl;
         }
 
     } while (choice != 0);
@@ -226,7 +236,7 @@ int main() {
     for (BankAccount* acc : accounts) {
         delete acc;
     }
-    cout<<"\n24CE017";
 
+    cout << "\n24CE017" << endl;
     return 0;
 }

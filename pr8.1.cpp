@@ -16,7 +16,7 @@ int main() {
     int num;
 
     cout << "Enter " << n << " integers:\n";
-    for (int i = 0; i < n; ++i) {
+    for (int i = 0; i < n; i++) {
         cin >> num;
         sequence.push_back(num);
     }

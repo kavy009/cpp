@@ -42,7 +42,7 @@ public:
         }
     }
 
-    double getBalance() const {
+    float getBalance() const {
         return balance;
     }
 

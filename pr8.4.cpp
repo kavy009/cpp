@@ -36,7 +36,7 @@ int main() {
     for (vector<Student>::iterator it = students.begin(); it != students.end(); it++)
     {
         cout << rank << ". " << it->name << " - " << it->score << endl;
-        ++rank;
+        rank++;
     }
 
     cout << "\n24CE017" << endl;
